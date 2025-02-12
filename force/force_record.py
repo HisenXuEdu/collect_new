@@ -3,7 +3,6 @@ import socket
 import struct
 import numpy as np
 import pandas as pd
-import xlsxwriter as xw
 
 
 PORT = 49152  # Ethernet DAQ使用的端口号
@@ -118,7 +117,7 @@ print(data.shape)
 
 # data_EMG = np.vstack((data_emg_acc_timestamp, data))
 # data_EMG = pd.DataFrame(data_EMG, columns=None)
-data.to_csv('./NData/force/FORCE'+str(int(time_force_begin*1000))+'.csv', index=None)
+data.to_csv('./data/force/FORCE'+str(int(time_force_begin*1000))+'.csv', index=None)
 # data.to_csv('1'+'.csv', index=None)
 
 
