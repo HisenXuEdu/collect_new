@@ -100,8 +100,8 @@ if __name__ == '__main__':
     t_end_string = time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime(t_end))
     print("运动结束时间：", t_end_string)
 
-    dashboard.close()
-    move.close()
+    # dashboard.close()
+    # move.close()
 
     
     p1.join()

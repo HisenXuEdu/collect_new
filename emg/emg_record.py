@@ -17,7 +17,7 @@ def record_emg(host):
     time_emg_begin = time.time()
     print('肌电开始时间：',time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time_emg_begin)))
     data_EMG = dev_emg.read()
-    for i in range(3):
+    for i in range(2):
         print(i)
         # data_EMG += dev_emg.read()
         data_EMG = np.concatenate((data_EMG,dev_emg.read()),axis=1)
@@ -26,12 +26,12 @@ def record_emg(host):
     time_end_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time_emg_end))
     print('肌电结束时间：', time_end_string)
     #这里构造的时间戳维度不对
-    data_emg_timestamp = np.linspace(int(time_emg_begin*1000), int(time_emg_end*1000)+dev_emg.samples_per_read/2000-1, dev_emg.samples_per_read*4)  #构建时间戳
+    data_emg_timestamp = np.linspace(int(time_emg_begin*1000), int(time_emg_end*1000)+dev_emg.samples_per_read/2000-1, dev_emg.samples_per_read*3)  #构建时间戳
     time_end_string = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time_emg_end))
     data_EMG = np.vstack((data_emg_timestamp, data_EMG))
     data_EMG = pd.DataFrame(data_EMG, columns=None)
     data_EMG = data_EMG.T
-    data_EMG.to_csv('./NData/emg/EMG'+str(int(time_emg_begin*1000))+'.csv', index=None)
+    data_EMG.to_csv('./data/emg/EMG'+str(int(time_emg_begin*1000))+'.csv', index=None)
     dev_emg.stop()
 
 

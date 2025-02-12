@@ -61,6 +61,8 @@ if __name__ == '__main__':
                 # print(t_robot)
             timestamp_list.append(timestamp)
             pose_list.append(pose)
+        if (timestamp - first_time)%100 == 0:
+            print(timestamp - first_time)
         
     t_end = time.time()
     t_end_string = time.strftime("%Y-%m-%d%H:%M:%S", time.localtime(t_end))
