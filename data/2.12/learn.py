@@ -56,7 +56,7 @@ emg_signal = pd.DataFrame(emg_signal)
 force_signal = pd.DataFrame(csv_force_data)
 pose_signal = pd.DataFrame(csv_pose_data)
 num_samples = int(len(pose_signal) * (100 / 125))
-pose_signal = resample(emg_signal, num_samples)
+pose_signal = resample(pose_signal, num_samples)
 
 print(pose_signal.shape)
 print(force_signal.shape)
