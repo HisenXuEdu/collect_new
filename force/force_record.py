@@ -96,7 +96,7 @@ data = []
 time_force_begin = time.time()
 print('六维力开始时间：',time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time_force_begin)))
 # while True:
-sec = 60
+sec = 90
 for i in range(int(1000/SPEED)*sec):
     if i==1:
         time_force_begin = time.time()
