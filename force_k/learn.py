@@ -57,8 +57,8 @@ print(force_signal.shape)
 print(emg_signal.shape)
 
 
-force_signal = force_signal.iloc[500:3000]
-emg_signal = emg_signal.iloc[500:3000]
+force_signal = force_signal.iloc[500:7500]
+emg_signal = emg_signal.iloc[500:7500]
 
 
 # 进行线性拟合
@@ -83,6 +83,8 @@ plt.show()
 # Y = Y[0]
 # print(Y)
 Y = force_signal['5']
+# Y序号从0开始
+# Y = StandardScaler().fit_transform(Y)
 X = emg_signal.iloc[:,[0,1,2,3]]
 model = LinearRegression()
 model.fit(X, Y)
@@ -99,6 +101,9 @@ y_pred = model.predict(X)
 # 输出拟合的预测值
 print("预测的 y 值:", y_pred)
 
+y_pred = y_pred[2300:3200]
+Y = Y[2300:3200]
+
 # 绘制y_pred和Y的图像
 plt.figure(figsize=(20, 3))
 plt.plot(y_pred, label='y_pred')
@@ -106,6 +111,11 @@ plt.plot(Y, label='Y')
 plt.xlabel('time(ms)')
 plt.ylabel('force(N)')
 plt.show()
+
+
+
+
+
 
 # import numpy as np
 # from sklearn.linear_model import LinearRegression
