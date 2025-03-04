@@ -58,7 +58,6 @@ pose_signal = resample(pose_signal, num_samples)
 pose_signal = pd.DataFrame(pose_signal)
 
 emg_signal = filter_data(emg_signal, f=(20,50), butterworth_order=4, btype='bandpass')
-# emg_signal = normalise(emg_signal)
 emg_signal = rectify_data(emg_signal)
 
 # emg_signal = emg_signal.rolling(200).mean()
