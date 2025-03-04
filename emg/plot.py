@@ -57,6 +57,10 @@ def cal(X, Y):
     r2 = model.score(X, Y)
     print("R^2:", r2)
 
+    correlation_matrix = np.corrcoef(y_pred, kx1)
+    correlation_coefficient = correlation_matrix[0, 1]
+    print("Correlation Coefficient:", correlation_coefficient)
+
 
 path = 'data/2.17/force/'
 
@@ -117,9 +121,13 @@ plt.show()
 # ky = [837, 732, 598, 512, 427, 342, 256, 140]
 # kz = [663, 568, 434, 348, 263, 198, 122, 78]
 
-kx = [243, 203, 176, 138, 103, 88, 62, 38]
-ky = [837, 732, 598, 512, 427, 342, 256, 140]
-kz = [663, 568, 434, 348, 263, 198, 122, 78]
+# kx = [243, 203, 176, 138, 103, 88, 62, 38]
+# ky = [837, 732, 598, 512, 427, 342, 256, 140]
+# kz = [663, 568, 434, 348, 263, 198, 122, 78]
+
+kx = np.array([243, 203, 176, 138, 103, 88, 62, 38])/2
+ky = np.array([737, 732, 598, 512, 427, 342, 256, 140])/2
+kz = np.array([563, 468, 334, 248, 213, 198, 122, 78])/2
 
 # 每个重复125次，比如
 kx1 = [item/2 for item in kx for i in range(125)]
@@ -149,8 +157,14 @@ custom_model = LinearRegression()
 custom_model.coef_ = custom_coef
 custom_model.intercept_ = custom_intercept
 y_pred = custom_model.predict(X)
-r2 = custom_model.score(X, kx1)
-print("R^2:", r2)
+
+
+correlation_matrix = np.corrcoef(y_pred, kx1)
+correlation_coefficient = correlation_matrix[0, 1]
+print("Correlation Coefficient:", correlation_coefficient)
+
+# r2 = custom_model.score(X, kx1)
+# print("R^2:", r2)
 # 绘制y_pred和Y的图像
 plt.figure(figsize=(20, 3))
 plt.plot(y_pred, label='y_pred')
@@ -176,8 +190,13 @@ custom_model = LinearRegression()
 custom_model.coef_ = custom_coef
 custom_model.intercept_ = custom_intercept
 y_pred = custom_model.predict(X)
-r2 = custom_model.score(X, ky1)
-print("R^2:", r2)
+
+correlation_matrix = np.corrcoef(y_pred, ky1)
+correlation_coefficient = correlation_matrix[0, 1]
+print("Correlation Coefficient:", correlation_coefficient)
+
+# r2 = custom_model.score(X, ky1)
+# print("R^2:", r2)
 # 绘制y_pred和Y的图像
 plt.figure(figsize=(20, 3))
 plt.plot(y_pred, label='y_pred')
@@ -201,8 +220,14 @@ custom_model = LinearRegression()
 custom_model.coef_ = custom_coef
 custom_model.intercept_ = custom_intercept
 y_pred = custom_model.predict(X)
-r2 = custom_model.score(X, kz1)
-print("R^2:", r2)
+
+correlation_matrix = np.corrcoef(y_pred, kz1)
+correlation_coefficient = correlation_matrix[0, 1]
+print("Correlation Coefficient:", correlation_coefficient)
+
+
+# r2 = custom_model.score(X, kz1)
+# print("R^2:", r2)
 # 绘制y_pred和Y的图像
 plt.figure(figsize=(20, 3))
 plt.plot(y_pred, label='y_pred')
