@@ -5,7 +5,7 @@ import csv
 import numpy as np
 
 # 读取merge.pkl
-data = pd.read_pickle('./data/3.8/merge.pkl')
+data = pd.read_pickle('./data/3.8/merge_new.pkl')
 
 # 读取数据
 emg_data = data[0]

@@ -115,13 +115,6 @@ plt.ylabel('K Value')
 plt.grid()
 # plt.show()
 
-# # 删除emg_data和k_data最后一个元素
-# emg_data.pop()
-# k_data.pop()
-# # 保存数据
-# pd.to_pickle([emg_data, k_data], './data/3.8/merge.pkl')
-# print('数据保存成功')
-
 
 
 kx1 = k_all[:, 0]

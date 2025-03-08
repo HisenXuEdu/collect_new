@@ -20,6 +20,10 @@ for i in range(len(emg_data)):
     emg = emg_data[i]
     emg_all = np.concatenate((emg_all,emg),axis=1)
     k = k_data[i]
+    if i == 7:
+        k[1] = 380
+    if i == 14:
+        k[1] = 400
     num = emg.shape[1]
     # 将k重复num次
     k = np.tile(k, (num, 1))
@@ -38,8 +42,6 @@ print(k_all.shape)
 # emg_data = emg_data[:-4]
 # k_data = k_data[:-4]
 
-k_data[7, 1] = 380
-k_data[14, 1] = 400
 
 # 保存数据
 pd.to_pickle([emg_data, k_data], './data/3.8/merge1.pkl')

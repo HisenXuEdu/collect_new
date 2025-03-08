@@ -4,13 +4,13 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 
 # 读取pkl
-data = pd.read_pickle('./data/3.8/pose300/zhong.pkl')
+data = pd.read_pickle('./data/3.8/pose1/gao1.pkl')
 force_list = data[0]
 pose_list = data[1]
 emg_list = data[2]
 
 
-num = 2
+num = 1
 
 # 将emg_list转换为numpy数组
 emg_list = np.array(emg_list[num])
@@ -103,6 +103,32 @@ def calc_impedance_without_d(x, fx, y, fy, z, fz):
 
     return kx, ky, kz
 
+def calc_impedance_just_k(x, fx, y, fy, z, fz):
+    """
+    计算阻抗参数
+    :param x: 位置、速度、加速度数据
+    :param y: 力数据
+    :return: 阻抗参数
+    """
+    # 使用最小二乘法计算阻抗参数
+    # 使用线性回归拟合参数
+    modelx = LinearRegression()
+    modelx.fit(x, fx)
+    kx, mx = modelx.coef_
+    print(f"X轴：刚度 K = {kx:.4f}, 惯性 M = {mx:.4f}")
+
+    modely = LinearRegression()
+    modely.fit(y, fy)
+    ky, my = modely.coef_
+    print(f"Y轴：刚度 K = {ky:.4f}, 惯性 M = {my:.4f}")
+
+    modelz = LinearRegression()
+    modelz.fit(z, fz)
+    kz, mz = modelz.coef_
+    print(f"Z轴：刚度 K = {kz:.4f}, 惯性 M = {mz:.4f}")
+
+    return kx, ky, kz
+
 
 def calc_impedance(x, fx, y, fy, z, fz):
     """
@@ -137,6 +163,7 @@ ax = np.gradient(vx, 0.1)
 X = np.column_stack((x, vx, ax))
 fx = np.array(force_list[:, 1]).reshape(-1)
 X_k = np.column_stack((x, ax))
+X_jusk = np.column_stack((x))
 
 
 y = np.array(pose_list[:, 1]).reshape(-1)/1000
@@ -145,6 +172,7 @@ ay = np.gradient(vy, 0.1)
 Y = np.column_stack((y, vy, ay))
 fy = np.array(force_list[:, 0]).reshape(-1)
 Y_k = np.column_stack((y, ay))
+Y_jusk = np.column_stack((y))
 
 z = np.array(pose_list[:, 2]).reshape(-1)/1000
 vz = np.gradient(z, 0.1)
@@ -152,17 +180,20 @@ az = np.gradient(vz, 0.1)
 Z = np.column_stack((z, vz, az))
 fz = np.array(force_list[:, 2]).reshape(-1)
 Z_k = np.column_stack((z, az))
+Z_jusk = np.column_stack((z))
 
-kx, ky, kz = calc_impedance(X, fx, Y, fy, Z, fz)
+# kx, ky, kz = calc_impedance(X, fx, Y, fy, Z, fz)
 
-kx1, ky1, kz1 = calc_impedance_without_d(X_k, fx, Y_k, fy, Z_k, fz)
+# kx1, ky1, kz1 = calc_impedance_without_d(X_k, fx, Y_k, fy, Z_k, fz)
+
+kx1, ky1, kz1 = calc_impedance_just_k(X_jusk, fx, Y_jusk, fy, Z_jusk, fz)
 
 plt.show()
 
 
 # merge = []
 # k = []
-# pd.to_pickle([merge, k], './data/3.8/merge_new.pkl')
+# pd.to_pickle([merge, k], './data/3.8/merge_without_d.pkl')
 
 # 等待键盘输入Y，否则退出
 if input("Continue? (Y/n)") != 'y':
@@ -176,7 +207,7 @@ data = pd.read_pickle('./data/3.8/merge_new.pkl')
 merge = data[0]
 k = data[1]
 merge.append(emg_list)
-k.append([kx, ky, kz])
+k.append([kx1, ky1, kz1])
 # 将merge和k保存为pkl
 pd.to_pickle([merge, k], './data/3.8/merge_new.pkl')
 print("数据保存成功！")
