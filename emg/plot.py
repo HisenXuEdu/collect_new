@@ -7,6 +7,8 @@ import numpy as np
 import scipy.signal as signal
 from scipy.signal import resample
 from sklearn.linear_model import LinearRegression
+import warnings
+warnings.filterwarnings('ignore')
 
 def filter_data(emg_data, f, butterworth_order = 4, btype = 'lowpass'):
     #力并没有进行滤波，因为后面窗口内的取均值作为真值
@@ -72,6 +74,8 @@ print(csv_df.shape)
 csv_df = csv_df.iloc[:, 1:5]
 emg_signal = filter_data(csv_df, f=(20,50), butterworth_order=4, btype='bandpass')
 emg_signal = rectify_data(emg_signal)
+# emg_signal全乘2
+emg_signal = emg_signal * 2
 emg_signal = emg_signal.rolling(200).mean()
 csv_df = emg_signal.dropna()
 print(csv_df.shape)
@@ -125,9 +129,9 @@ plt.show()
 # ky = [837, 732, 598, 512, 427, 342, 256, 140]
 # kz = [663, 568, 434, 348, 263, 198, 122, 78]
 
-kx = np.array([243, 203, 176, 138, 103, 88, 62, 38])/2
-ky = np.array([737, 732, 598, 512, 427, 342, 256, 140])/2
-kz = np.array([563, 468, 334, 248, 213, 198, 122, 78])/2
+kx = np.array([203, 203, 176, 138, 103, 88, 62, 38])
+ky = np.array([337, 332, 298, 212, 157, 129, 108, 101])
+kz = np.array([310, 268, 234, 178, 143, 128, 102, 78])
 
 # 每个重复125次，比如
 kx1 = [item/2 for item in kx for i in range(125)]
@@ -153,7 +157,7 @@ e = 10.074040096367826
 
 custom_coef = np.array([a, b, c, d])
 custom_intercept = e
-custom_model = LinearRegression()
+custom_model = LinearRegression(positive=True)
 custom_model.coef_ = custom_coef
 custom_model.intercept_ = custom_intercept
 y_pred = custom_model.predict(X)
