@@ -62,7 +62,7 @@ def cal(X, Y):
     print("Correlation Coefficient:", correlation_coefficient)
 
 # 读取merge.pkl
-data = pd.read_pickle('./data/3.8/merge.pkl')
+data = pd.read_pickle('./data/3.8/merge_make1.pkl')
 
 # 读取数据
 emg_data = data[0]
